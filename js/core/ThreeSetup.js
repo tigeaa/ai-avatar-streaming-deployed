@@ -2,13 +2,14 @@ import * as THREE from 'three';
 
 export function setupScene() {
     // Renderer setup
+    const container = document.getElementById('canvas-container');
     const canvas = document.getElementById('avatar-canvas');
     const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         antialias: true,
         alpha: true
     });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
     // Scene setup
@@ -16,7 +17,7 @@ export function setupScene() {
     scene.background = new THREE.Color(0x808080); // Simple grey background
 
     // Camera setup
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.z = 2;
     camera.position.y = 0.5;
 
@@ -32,11 +33,14 @@ export function setupScene() {
     const updatables = [];
 
     // Handle window resize
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+    const resizeObserver = new ResizeObserver(entries => {
+        const entry = entries[0];
+        const { width, height } = entry.contentRect;
+        camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(width, height);
     });
+    resizeObserver.observe(container);
 
     // Animation loop
     const animate = () => {

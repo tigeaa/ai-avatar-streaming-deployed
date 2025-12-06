@@ -1,10 +1,6 @@
 import * as THREE from 'three';
-import { GestureController } from '../controllers/GestureController.js'; // 追加
 
 export class AvatarController {
-    /**
-     * @param {THREE.Object3D} avatar - Ready Player Meのアバターオブジェクト
-     */
     constructor(avatar) {
         this.avatar = avatar;
         this.isTalking = false;
@@ -38,13 +34,12 @@ export class AvatarController {
         });
     }
 
-    // 追加: ジェスチャーを実行するメソッド
-    executeGesture(gestureName) {
-        this.gestureController.executeGesture(gestureName);
-    }
-
-    // 追加: アニメーションを更新するメソッド
-    update(delta) {
-        this.gestureController.update(delta);
+    update() {
+        if (this.isTalking) {
+            // Create a simple oscillating value for the mouth opening
+            const time = Date.now() * 0.015;
+            const mouthOpenValue = (Math.sin(time) + 1) / 2; // Value between 0 and 1
+            this.setExpression('mouthOpen', mouthOpenValue * 0.7); // Scale down to avoid extreme expressions
+        }
     }
 }

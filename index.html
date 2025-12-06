@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Avatar Streaming</title>
+    <title>AI Learning Partner</title>
     <link rel="stylesheet" href="css/style.css">
     <script type="importmap">
         {
@@ -15,13 +15,60 @@
     </script>
 </head>
 <body>
-    <div id="container">
-        <canvas id="avatar-canvas"></canvas>
+    <div id="main-container">
+        <!-- Left Panel: Study Control -->
+        <div id="study-panel">
+            <h2>物理ノートモード</h2>
+            <div class="control-group">
+                <label for="problem-input">ここに解く問題を入力してください:</label>
+                <textarea id="problem-input" rows="10"></textarea>
+            </div>
+            <div class="control-group">
+                <label for="timer-duration">監視タイマー(秒):</label>
+                <input type="number" id="timer-duration" value="60" min="10">
+            </div>
+            <div class="button-group">
+                <button id="start-study-button" class="btn btn-primary">勉強をはじめる</button>
+                <button id="complete-study-button" class="btn btn-success" style="display: none;">完了しました！</button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Avatar and Chat -->
+        <div id="avatar-area">
+            <div id="settings-panel">
+                <div class="settings-row">
+                    <label for="ai-service">AI Service:</label>
+                    <select id="ai-service">
+                        <option value="gemini">Gemini</option>
+                        <option value="huggingface">Hugging Face</option>
+                    </select>
+                </div>
+                <div class="settings-row" id="gemini-settings">
+                    <label for="gemini-api-key">Gemini API Key:</label>
+                    <input type="password" id="gemini-api-key" placeholder="Enter Gemini API Key">
+                </div>
+                <div class="settings-row" id="huggingface-settings" style="display: none;">
+                    <label for="hf-api-key">HF API Key:</label>
+                    <input type="password" id="hf-api-key" placeholder="Enter HF API Key">
+                    <label for="hf-model-url">Model URL:</label>
+                    <input type="text" id="hf-model-url" placeholder="Enter Model URL">
+                </div>
+                <button id="save-settings-button">Save</button>
+            </div>
+
+            <div id="canvas-container">
+                <canvas id="avatar-canvas"></canvas>
+            </div>
+
+            <div id="status-display"></div>
+
+            <div id="ui-container">
+                <textarea id="text-input" rows="2" placeholder="AIへの返信やメモはこちらに..."></textarea>
+                <button id="send-button">送信</button>
+            </div>
+        </div>
     </div>
-    <div id="ui-container">
-        <textarea id="text-input" rows="3" placeholder="ここにテキストを入力..."></textarea>
-        <button id="speak-button">話す</button>
-    </div>
+
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
